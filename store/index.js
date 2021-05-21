@@ -1,5 +1,6 @@
 export const state = () => ({
-    token: null
+    token: null,
+    user: null,
 })
 
 export const mutations = {
@@ -9,9 +10,31 @@ export const mutations = {
     clearaToken(state) {
         state.token = null;
     },
+    SET_USER(state, user) {
+        state.user = user
+      },
+    
 }
 
 export const actions = {
+    async onAuthStateChangedAction(state, { authUser, claims }) {
+        if (!authUser) {
+          // remove state
+          state.commit('SET_USER', null)
+    
+          //redirect from here
+          this.$router.push({
+            path: '/auth/signin',
+          })
+        } else {
+          const { uid, email } = authUser
+          state.commit('SET_USER', {
+            uid,
+            email,
+          })
+        }
+      },
+    
     nuxtServerInit({dispatch}){
         console.log('nuxtServerInit')
     },
@@ -24,5 +47,6 @@ export const actions = {
 }
 
 export const getters = {
-    hasToken: s => !!s.token
+    hasToken: s => !!s.token,
+    getUser: s => s.user
 }
