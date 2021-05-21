@@ -27,5 +27,6 @@ export default {
       this.$router.push("/users/" + user.id);
     },
   },
+  middleware: ["auth"],
 };
 </script>

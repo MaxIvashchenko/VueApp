@@ -17,5 +17,6 @@ export default {
     const user = await $axios.$get(API + "/users/" + params.id);
     return { user };
   },
+  middleware: ["auth"],
 };
 </script>

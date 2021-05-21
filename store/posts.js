@@ -1,24 +1,29 @@
 import API from '../constants'
 
 export const state = () => ({
-    posts: []
+    posts: [],
+    postsNum: 3,
 })
 
 export const mutations = {
     setPosts(state, posts) {
         state.posts = posts;
+    },
+    setPostsNum(state, num) {
+        state.postsNum = num;
     }
 }
 
 export const actions = {
-    async fetch({ commit }) {
+    async fetchPosts({ commit, state }) {
         const posts = await this.$axios.$get(
-           API + "/posts"+"?_limit=4"
+           API + "/posts"+"?_limit=" + state.postsNum
         );
         commit('setPosts', posts);
-    }
+    },
 }
 
 export const getters = {
-    posts: s => s.posts
+    posts: s => s.posts,
+    postsNum: s => s.postsNum,
 }
